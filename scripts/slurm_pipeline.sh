@@ -14,7 +14,8 @@
 
 set -euo pipefail
 
-# ── 路径 ────────────────────────────────────────────────────
+# ── 路径（$SCRATCH 没定义时自动 fallback）────────────────────
+SCRATCH="${SCRATCH:-/scratch/${USER}}"
 PROJECT_DIR="${SCRATCH}/584project"
 ENV_DIR="${SCRATCH}/envs/comp584"
 CONFIG="configs/experiment.yaml"

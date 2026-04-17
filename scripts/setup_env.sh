@@ -7,11 +7,14 @@
 # ============================================================
 set -euo pipefail
 
-# ── 0. 检查 $SCRATCH ─────────────────────────────────────────
-if [[ -z "${SCRATCH:-}" ]]; then
-    echo "[ERROR] \$SCRATCH 未定义。请先确认集群变量："
-    echo "        echo \$SCRATCH"
-    echo "        如果不存在，改用：export SCRATCH=/scratch/\$USER"
+# ── 0. 确定 $SCRATCH 路径 ────────────────────────────────────
+SCRATCH="${SCRATCH:-/scratch/${USER}}"
+echo "[setup] SCRATCH 路径：${SCRATCH}"
+if [[ ! -d "${SCRATCH}" ]]; then
+    echo "[ERROR] 目录不存在：${SCRATCH}"
+    echo "        请先确认正确的 scratch 路径，例如："
+    echo "          ls /scratch/\$USER  或  ls /projects/\$USER"
+    echo "        然后：  export SCRATCH=/正确/路径  再重跑本脚本"
     exit 1
 fi
 
