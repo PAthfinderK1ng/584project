@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=comp584_pipeline
 #SBATCH --partition=gpu
+#SBATCH --reservation=classroom
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:v100:2
