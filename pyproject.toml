@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lora-merge-project"
+version = "0.1.0"
+description = "COMP 584 final project: LoRA adapter merging for math reasoning and code generation."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "accelerate>=1.1.0",
+  "bitsandbytes>=0.45.0",
+  "datasets>=3.0.0",
+  "matplotlib>=3.9.0",
+  "numpy>=1.26.0",
+  "pandas>=2.2.0",
+  "peft>=0.14.0",
+  "PyYAML>=6.0.2",
+  "safetensors>=0.4.5",
+  "sympy>=1.13.0",
+  "torch>=2.4.0",
+  "transformers>=4.47.0",
+  "wandb>=0.18.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

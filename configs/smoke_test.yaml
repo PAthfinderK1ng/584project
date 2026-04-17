@@ -1,0 +1,111 @@
+project:
+  name: "comp584-lora-merging-smoke"
+  seed: 42
+
+model:
+  name_or_path: "Qwen/Qwen2.5-1.5B-Instruct"
+  trust_remote_code: false
+  use_4bit: true
+  quant_type: "nf4"
+  double_quant: true
+  compute_dtype: "bfloat16"
+  max_seq_length: 1024
+  generation:
+    max_new_tokens_math: 192
+    max_new_tokens_code: 160
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+
+paths:
+  processed_data_dir: "data/processed"
+  checkpoints_dir: "results/checkpoints"
+  evaluations_dir: "results/evaluations"
+  analysis_dir: "results/analysis"
+
+datasets:
+  gsm8k:
+    path: "openai/gsm8k"
+    config: "main"
+    train_split: "train"
+    test_split: "test"
+  math500:
+    path: "HuggingFaceH4/MATH-500"
+    test_split: "test"
+  mbpp:
+    path: "mbpp"
+    config: "sanitized"
+    train_split: "train"
+    validation_split: "validation"
+    test_split: "test"
+  humaneval:
+    path: "openai_humaneval"
+    test_split: "test"
+
+training:
+  math:
+    num_train_epochs: 1
+    learning_rate: 2.0e-4
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    weight_decay: 0.0
+    logging_steps: 5
+    save_strategy: "epoch"
+    eval_strategy: "no"
+    max_train_samples: 64
+  code:
+    num_train_epochs: 1
+    learning_rate: 2.0e-4
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.03
+    weight_decay: 0.0
+    logging_steps: 5
+    save_strategy: "epoch"
+    eval_strategy: "no"
+    max_train_samples: 64
+
+merging:
+  linear:
+    weights:
+      math: 0.5
+      code: 0.5
+  ties:
+    density: 0.5
+  dare:
+    drop_rate: 0.5
+    seed: 42
+
+evaluation:
+  math:
+    batch_size: 1
+    datasets:
+      - "gsm8k_test"
+      - "math500_test"
+    max_samples: 16
+  code:
+    batch_size: 1
+    dataset: "humaneval_test"
+    timeout_seconds: 10
+    max_samples: 8
+
+analysis:
+  math_reference_condition: "math_adapter"
+  code_reference_condition: "code_adapter"
+
+wandb:
+  enabled: false
+  project: "comp584-lora-merging-smoke"

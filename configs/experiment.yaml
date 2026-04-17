@@ -1,0 +1,117 @@
+project:
+  name: "comp584-lora-merging"
+  seed: 42
+
+model:
+  name_or_path: "Qwen/Qwen2.5-7B-Instruct"
+  trust_remote_code: false
+  use_4bit: true
+  quant_type: "nf4"
+  double_quant: true
+  # Use "bfloat16" on Ampere/Hopper (A100, H100, RTX 30xx/40xx).
+  # On V100 (compute capability 7.0), bfloat16 is NOT supported;
+  # detect_compute_dtype() in utils.py automatically falls back to float16.
+  compute_dtype: "bfloat16"
+  max_seq_length: 2048
+  generation:
+    max_new_tokens_math: 384
+    max_new_tokens_code: 256
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+paths:
+  processed_data_dir: "data/processed"
+  checkpoints_dir: "results/checkpoints"
+  evaluations_dir: "results/evaluations"
+  analysis_dir: "results/analysis"
+
+datasets:
+  gsm8k:
+    path: "openai/gsm8k"
+    config: "main"
+    train_split: "train"
+    test_split: "test"
+  math500:
+    path: "HuggingFaceH4/MATH-500"
+    test_split: "test"
+  mbpp:
+    path: "mbpp"
+    config: "sanitized"
+    train_split: "train"
+    validation_split: "validation"
+    test_split: "test"
+  humaneval:
+    path: "openai_humaneval"
+    test_split: "test"
+
+training:
+  math:
+    num_train_epochs: 2
+    learning_rate: 2.0e-4
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    weight_decay: 0.0
+    logging_steps: 10
+    save_strategy: "epoch"
+    eval_strategy: "no"
+    max_train_samples:
+  code:
+    num_train_epochs: 3
+    learning_rate: 2.0e-4
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    warmup_ratio: 0.03
+    weight_decay: 0.0
+    logging_steps: 10
+    save_strategy: "epoch"
+    eval_strategy: "no"
+    max_train_samples:
+
+merging:
+  linear:
+    weights:
+      math: 0.5
+      code: 0.5
+  ties:
+    density: 0.5
+  dare:
+    drop_rate: 0.5
+    seed: 42
+
+evaluation:
+  math:
+    batch_size: 1
+    datasets:
+      - "gsm8k_test"
+      - "math500_test"
+    max_samples:
+  code:
+    batch_size: 1
+    dataset: "humaneval_test"
+    timeout_seconds: 10
+    max_samples:
+
+analysis:
+  math_reference_condition: "math_adapter"
+  code_reference_condition: "code_adapter"
+
+wandb:
+  enabled: false
+  project: "comp584-lora-merging"
