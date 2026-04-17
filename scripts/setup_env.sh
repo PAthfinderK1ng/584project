@@ -29,7 +29,7 @@ echo "[setup] ENV_DIR      = ${ENV_DIR}"
 module purge
 module load GCC/12.3.0           # module avail GCC   查可用版本
 module load CUDA/12.4.1          # module avail cuda  查可用版本
-module load Anaconda3/2024.02-1  # module avail anaconda
+module load Miniforge3/25.3.0-3  # module avail anaconda
 
 # ── 2. 克隆或更新项目代码到 $SCRATCH ─────────────────────────
 if [[ -d "${PROJECT_DIR}/.git" ]]; then
@@ -66,7 +66,7 @@ echo "======================================================="
 echo " 配置完成！"
 echo ""
 echo " 以后每次登录手动激活：                                "
-echo "   module load GCC/12.3.0 CUDA/12.4.1 Anaconda3/2024.02-1"
+echo "   module load GCC/12.3.0 CUDA/12.4.1 Miniforge3/25.3.0-3"
 echo "   conda activate ${ENV_DIR}"
 echo ""
 echo " 项目路径：${PROJECT_DIR}"
