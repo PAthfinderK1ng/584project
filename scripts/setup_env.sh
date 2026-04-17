@@ -28,7 +28,7 @@ echo "[setup] ENV_DIR      = ${ENV_DIR}"
 # ── 1. 加载系统模块 ──────────────────────────────────────────
 module purge
 module load GCC/12.3.0           # module avail GCC   查可用版本
-module load CUDA/12.1.0          # module avail cuda  查可用版本
+module load CUDA/12.4.1          # module avail cuda  查可用版本
 module load Anaconda3/2024.02-1  # module avail anaconda
 
 # ── 2. 克隆或更新项目代码到 $SCRATCH ─────────────────────────
@@ -56,7 +56,7 @@ source activate "${ENV_DIR}"
 
 # PyTorch（CUDA 12.1）
 pip install torch==2.4.0 torchvision torchaudio \
-    --index-url https://download.pytorch.org/whl/cu121
+    --index-url https://download.pytorch.org/whl/cu124
 
 # 项目依赖
 pip install -e .
@@ -66,7 +66,7 @@ echo "======================================================="
 echo " 配置完成！"
 echo ""
 echo " 以后每次登录手动激活：                                "
-echo "   module load GCC/12.3.0 CUDA/12.1.0 Anaconda3/2024.02-1"
+echo "   module load GCC/12.3.0 CUDA/12.4.1 Anaconda3/2024.02-1"
 echo "   conda activate ${ENV_DIR}"
 echo ""
 echo " 项目路径：${PROJECT_DIR}"

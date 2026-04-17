@@ -19,7 +19,7 @@ ENV_DIR="${SCRATCH}/envs/comp584"
 
 module purge
 module load GCC/12.3.0
-module load CUDA/12.1.0
+module load CUDA/12.4.1
 module load Anaconda3/2024.02-1
 
 source activate "${ENV_DIR}"
