@@ -4,10 +4,10 @@
 #SBATCH --reservation=classroom
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gres=gpu:v100:2
+#SBATCH --gpus=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
-#SBATCH --time=20:00:00
+#SBATCH --time=24:59:59
 #SBATCH --output=comp584_pipeline_%j.out
 #SBATCH --error=comp584_pipeline_%j.err
 #SBATCH --mail-type=BEGIN,END,FAIL
