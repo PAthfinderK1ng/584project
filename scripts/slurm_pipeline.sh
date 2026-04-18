@@ -20,6 +20,8 @@ SCRATCH="${SCRATCH:-/scratch/${USER}}"
 PROJECT_DIR="${SCRATCH}/584project"
 ENV_DIR="${SCRATCH}/envs/comp584"
 CONFIG="configs/experiment.yaml"
+export HF_HOME="${SCRATCH}/hf_cache"
+export TRANSFORMERS_CACHE="${SCRATCH}/hf_cache"
 
 # ── 加载模块 ─────────────────────────────────────────────────
 module purge
