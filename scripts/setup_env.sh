@@ -20,10 +20,18 @@ fi
 
 PROJECT_DIR="${SCRATCH}/584project"
 ENV_DIR="${SCRATCH}/envs/comp584"
+CONDA_PKGS="${SCRATCH}/conda_pkgs"
+PIP_CACHE="${SCRATCH}/pip_cache"
 
 echo "[setup] SCRATCH      = ${SCRATCH}"
 echo "[setup] PROJECT_DIR  = ${PROJECT_DIR}"
 echo "[setup] ENV_DIR      = ${ENV_DIR}"
+
+# ── 把 conda/pip 缓存全部搬到 $SCRATCH，避免 home 配额爆满 ───
+mkdir -p "${CONDA_PKGS}" "${PIP_CACHE}"
+export CONDA_PKGS_DIRS="${CONDA_PKGS}"
+export PIP_CACHE_DIR="${PIP_CACHE}"
+conda config --add pkgs_dirs "${CONDA_PKGS}" 2>/dev/null || true
 
 # ── 1. 加载系统模块 ──────────────────────────────────────────
 module purge
@@ -54,7 +62,7 @@ fi
 # ── 4. 激活环境并安装依赖 ─────────────────────────────────────
 source activate "${ENV_DIR}"
 
-# PyTorch（CUDA 12.1）
+# PyTorch（CUDA 12.4）
 pip install torch==2.4.0 torchvision torchaudio \
     --index-url https://download.pytorch.org/whl/cu124
 
