@@ -4,7 +4,7 @@
 #SBATCH --reservation=classroom
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --gpus=1
+#SBATCH --gpus=2
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=24:59:59
