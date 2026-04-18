@@ -29,7 +29,8 @@ module load GCC/12.3.0
 module load CUDA/12.4.1
 module load Miniforge3/25.3.0-3
 
-source activate "${ENV_DIR}"
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate "${ENV_DIR}"
 
 cd "${PROJECT_DIR}"
 
