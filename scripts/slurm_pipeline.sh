@@ -7,7 +7,7 @@
 #SBATCH --gpus=2
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
-#SBATCH --time=24:59:59
+#SBATCH --time=24:00:00
 #SBATCH --output=comp584_pipeline_%j.out
 #SBATCH --error=comp584_pipeline_%j.err
 #SBATCH --mail-type=BEGIN,END,FAIL
