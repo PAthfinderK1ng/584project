@@ -101,12 +101,12 @@ evaluation:
     datasets:
       - "gsm8k_test"
       - "math500_test"
-    max_samples:
+    max_samples: 100
   code:
     batch_size: 1
     dataset: "humaneval_test"
     timeout_seconds: 10
-    max_samples:
+    max_samples: 50
 
 analysis:
   math_reference_condition: "math_adapter"
